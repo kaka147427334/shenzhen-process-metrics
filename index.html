@@ -569,8 +569,8 @@
     dq.push({t:'Lafa5：锁单数 > 试驾数', b:`本月 ${fmt(l5.lock)} 台锁单 vs ${fmt(l5.testdrive)} 组试驾，试驾锁单率计算为 ${pct(l5.r_td_lock,0)}（上月 ${pct((mdMap['Lafa5']?mdMap['Lafa5'].lock/(mdMap['Lafa5'].testdrive||1):0),0)}）。`+
       `说明该车型锁单未走标准试驾流程（预售/线上锁单），六率口径对其不适用，不应按常规车系参与试驾转化排名。`});
   }
-  if(l5u && l5u.arrive > l5u.leads){
-    dq.push({t:'Lafa5 Ultra：到店数 > 有效潜客数', b:`到店 ${fmt(l5u.arrive)} vs 潜客 ${fmt(l5u.leads)}，潜客到店率 ${pct(l5u.r_lead_arrive,0)}（>100%）。`+
+  if(l5u && l5u.r_lead_arrive > 0.9){
+    dq.push({t:'Lafa5 Ultra：潜客到店率异常偏高 '+pct(l5u.r_lead_arrive,0), b:`到店 ${fmt(l5u.arrive)} vs 潜客 ${fmt(l5u.leads)}，几乎每一条线索都记为到店。`+
       `上月同样异常（到店 ${fmt((mdMap['Lafa5 Ultra']||{arrive:0}).arrive)} / 潜客 ${fmt((mdMap['Lafa5 Ultra']||{leads:0}).leads)}），属口径重复计算，该车型到店/试驾数据不可用于横向比较。`});
   }
   const nat = D.chCur.find(x=>x.name==='自然到店');
@@ -583,7 +583,7 @@
     dq.push({t:'「其他」渠道：邀约排程 > 有效潜客', b:`排程 ${fmt(oth.sched)} vs 潜客 ${fmt(oth.leads)}，排程核销率 ${pct(oth.r_verify)}、潜客到店率 ${pct(oth.r_lead_arrive,0)}。`+
       `该渠道为跨渠道归并口径，排程与潜客非同一人群，六率无业务含义。`});
   }
-  const zero = st.filter(x=>x.leads<50 && x.lock===0);
+  const zero = st.filter(x=>x.leads>0 && x.lock===0);
   if(zero.length){
     dq.push({t:'门店存在零产出/未开业', b: zero.map(x=>`${x.name}（潜客 ${fmt(x.leads)}、到店 ${fmt(x.arrive)}、锁单 ${fmt(x.lock)}）`).join('；')+
       `。${zero.length>1?'其中部分为新开店或已停业，':'该店'}参与区域均值会被拉低，建议剔除后再看门店排名。`});
