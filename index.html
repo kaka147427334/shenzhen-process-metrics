@@ -297,6 +297,7 @@
   }).sort((a,b)=>b.leads-a.leads);
 
   new Chart(document.getElementById('cCh'), {
+    type:'bar',
     data:{ labels:ch.map(x=>x.name), datasets:[
       {type:'bar', label:'潜客份额', data:ch.map(x=>x.leads/tC.leads*100), backgroundColor:'#94a8d0', borderRadius:5, yAxisID:'y'},
       {type:'bar', label:'锁单份额', data:ch.map(x=>x.lock/tC.lock*100), backgroundColor:'#1a56db', borderRadius:5, yAxisID:'y'},
@@ -353,6 +354,7 @@
   }).sort((a,b)=>b.lock-a.lock);
 
   new Chart(document.getElementById('cMd'), {
+    type:'bar',
     data:{ labels:md.map(x=>x.name), datasets:[
       {type:'bar', label:'锁单 上月', data:md.map(x=>x.p.lock), backgroundColor:'#c3cbd8', borderRadius:5, yAxisID:'y'},
       {type:'bar', label:'锁单 本月', data:md.map(x=>x.lock), backgroundColor:md.map(x=> x.lock/x.p.lock < P-0.1 ? '#d92d20':'#1a56db'), borderRadius:5, yAxisID:'y'},
